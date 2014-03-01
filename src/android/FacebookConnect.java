@@ -35,17 +35,13 @@ public class FacebookConnect extends CordovaPlugin {
 
     private final String CLASS = "FacebookConnect";
 
-    private String appId;
     private Facebook _facebook;
     private AuthorizeDialogListener authorizeDialogListener;
     //private final Handler handler = new Handler();
 
     public Facebook getFacebook() {
-        if (this.appId == null) {
-            Log.e(CLASS, "ERROR: You must provide a non-empty appId.");
-        }
         if (this._facebook == null) {
-            this._facebook = new Facebook(this.appId);
+            this._facebook = new Facebook();
         }
         return _facebook;
     }
@@ -56,8 +52,8 @@ public class FacebookConnect extends CordovaPlugin {
         Boolean success = false;
 
         try {
-            if (action.equals("initWithAppId")) {
-                success = this.initWithAppId(args, callbackContext);
+            if (action.equals("init")) {
+                success = this.init(args, callbackContext);
             } else if (action.equals("login")) {
                 success = this.login(args, callbackContext);
             } else if (action.equals("requestWithGraphPath")) {
@@ -89,15 +85,13 @@ public class FacebookConnect extends CordovaPlugin {
      * @return PluginResult
      * @throws JSONException
      */
-    public Boolean initWithAppId(final JSONArray args, CallbackContext context) throws JSONException {
-        Log.d(CLASS, "initWithAppId()");
+    public Boolean init(final JSONArray args, CallbackContext context) throws JSONException {
+        Log.d(CLASS, "init()");
         JSONObject params = args.getJSONObject(0);
 
         JSONObject result = new JSONObject();
 
-        this.appId = params.getString("appId");
         Facebook facebook = this.getFacebook();
-        result.put("appId", this.appId);
 
         // Check for any stored session update Facebook session information
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.cordova.getActivity());
@@ -135,7 +129,6 @@ public class FacebookConnect extends CordovaPlugin {
         final JSONObject params = args.getJSONObject(0);
         final PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
 
-        if (params.has("appId")) this.appId = params.getString("appId");
         final Facebook facebook = this.getFacebook();
 
         // Check for any stored session update Facebook session information

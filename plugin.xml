@@ -13,19 +13,29 @@
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="LocalImages" >
+            <feature name="FacebookConnect" >
                 <param name="android-package" value="org.apache.cordova.plugins.FacebookConnect.FacebookConnect"/>
             </feature>
         </config-file>
         
-         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-             <activity android:name="org.apache.cordova.plugins.FacebookConnect"
-                               android:label="@string/app_name">
-                     <intent-filter>
-                     </intent-filter>
-             </activity> 
+        <preference name="APP_ID" />
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="org.apache.cordova.plugins.FacebookConnect"
+                android:label="@string/app_name">
+                <intent-filter>
+                </intent-filter>
+            </activity>
         </config-file>
-
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id"/>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <string name="fb_app_id">$APP_ID</string>
+        </config-file>
+        
+        
         <source-file src="src/android/FacebookConnect.java" target-dir="src/org/apache/cordova/plugins/FacebookConnect" />
         <source-file src="src/android/facebook-android-sdk.jar" target-dir="libs/" />
     </platform>

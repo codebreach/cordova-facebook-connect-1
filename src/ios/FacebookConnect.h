@@ -17,14 +17,13 @@
 #pragma mark - Properties
 
 @property (nonatomic, retain) NSMutableDictionary *callbackIds;
-@property (nonatomic, copy) NSString *appId;
 @property (nonatomic, retain) Facebook *facebook;
 @property (nonatomic, retain) NSMutableDictionary *facebookRequests;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 #pragma mark - Instance methods
 
-- (void)initWithAppId:(NSMutableArray *)arguments withDict:(NSMutableDictionary*)options;
+- (void)init:(NSMutableArray *)arguments withDict:(NSMutableDictionary*)options;
 - (void)login:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
 - (void)requestWithGraphPath:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
 - (void)logout:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;

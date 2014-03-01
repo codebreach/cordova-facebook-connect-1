@@ -13,7 +13,6 @@ NSString *const kFunctionDialog = @"dialog";
 @implementation FacebookConnect
 
 @synthesize callbackIds = _callbackIds;
-@synthesize appId = _appId;
 @synthesize facebook = _facebook;
 @synthesize facebookRequests = _facebookRequests;
 @synthesize dateFormatter = _dateFormatter;
@@ -27,11 +26,8 @@ NSString *const kFunctionDialog = @"dialog";
 	return _callbackIds;
 }
 - (Facebook *)facebook {
-	if([self.appId length] == 0) {
-		ALog(@"ERROR: You must provide a non-empty appId.");
-	}
 	if(_facebook == nil) {
-		_facebook = [[Facebook alloc] initWithAppId:self.appId andDelegate:self];
+		_facebook = [[Facebook init] andDelegate:self];
 	}
 	return _facebook;
 }
@@ -52,15 +48,13 @@ NSString *const kFunctionDialog = @"dialog";
 
 #pragma mark - Cordova plugin interface
 
-- (void)initWithAppId:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
-	DLog(@"initWithAppId:%@\n withDict:%@", arguments, options);
+- (void)init:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+	DLog(@"init:%@\n withDict:%@", arguments, options);
 
 	// The first argument in the arguments parameter is the callbackId.
-	[self.callbackIds setValue:[arguments pop] forKey:@"initWithAppId"];
-	self.appId = [options objectForKey:@"appId"] ?: @"";
+	[self.callbackIds setValue:[arguments pop] forKey:@"init"];
 
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	[result setObject:self.appId forKey:@"appId"];
 
 	// Check for any stored session update Facebook session information
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -76,7 +70,7 @@ NSString *const kFunctionDialog = @"dialog";
 	}
 
 	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-	[self writeJavascript:[pluginResult toSuccessCallbackString:[self.callbackIds valueForKey:@"initWithAppId"]]];
+	[self writeJavascript:[pluginResult toSuccessCallbackString:[self.callbackIds valueForKey:@"init"]]];
 
 }
 
@@ -87,15 +81,12 @@ NSString *const kFunctionDialog = @"dialog";
 	[self.callbackIds setValue:[arguments pop] forKey:@"login"];
 	NSArray *permissions = [options objectForKey:@"permissions"] ?: [[NSArray alloc] init];
 
-	if([options objectForKey:@"appId"]) {
-		self.appId = [options objectForKey:@"appId"];
-		// Check for any stored session update Facebook session information
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
-			self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
-			self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
-		}
-	}
+    // Check for any stored session update Facebook session information
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+    }
 
 	if (![self.facebook isSessionValid]) {
 		[self.facebook authorize:permissions];

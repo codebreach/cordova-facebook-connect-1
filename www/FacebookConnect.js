@@ -22,12 +22,10 @@
     }
 
     module.exports = {
-        initWithAppId : function(appId, callback) {
-            if(!appId) return false;
-
+        init : function(callback) {
             var _callback = generateSafeCallback(callback);
 
-            return exec(_callback, _callback, service, 'initWithAppId', [{appId: appId}]);
+            return exec(_callback, _callback, service, 'init', [{}]);
 
         },
 
@@ -35,8 +33,7 @@
             if(!options) options = {};
 
             var config = {
-                permissions: options.permissions || ['email'],
-                appId: options.appId || ''
+                permissions: options.permissions || ['email']
             };
 
             var _callback = generateSafeCallback(callback);
