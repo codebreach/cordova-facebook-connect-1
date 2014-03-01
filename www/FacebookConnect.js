@@ -32,13 +32,11 @@
         login : function(options, callback) {
             if(!options) options = {};
 
-            var config = {
-                permissions: options.permissions || ['email']
-            };
+            var permissions = options.permissions || []
 
             var _callback = generateSafeCallback(callback);
 
-            return exec(_callback, _callback, service, 'login', [config]);
+            return exec(_callback, _callback, service, 'login', permissions);
 
         },
 
