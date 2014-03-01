@@ -32,9 +32,37 @@
     
     <!-- ios -->
     <platform name="ios">
-        <plugins-plist key="FacebookConnect" />
-        <resource-dir src="FacebookSDK" />
-        <header-file src="FacebookConnectPlugin.h" />
-        <source-file src="FacebookConnectPlugin.m" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="FacebookConnect">
+                <param name="ios-package" value="FacebookConnect" />
+            </feature>
+        </config-file>
+        
+        <preference name="APP_ID" />
+        <preference name="APP_NAME" />
+        
+        <header-file src="src/ios/FacebookConnect.h" />
+        <source-file src="src/ios/FacebookConnect.m" />
+        
+        <config-file target="*-Info.plist" parent="FacebookAppID">
+            <string>$APP_ID</string>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="FacebookDisplayName">
+            <string>$APP_NAME</string>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>fb$APP_ID</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+        
+        <framework src="src/ios/FacebookSDK.framework" custom="true" />
     </platform>
 </plugin>
