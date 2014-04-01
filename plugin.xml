@@ -18,7 +18,9 @@
             </feature>
         </config-file>
         
-        <preference name="APP_ID" />
+        <preference name="FB_APP_ID" />
+        <preference name="PARSE_APP_ID" />
+        <preference name="PARSE_KEY" />
         
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:name="org.apache.cordova.plugins.FacebookConnect"
@@ -30,14 +32,23 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id"/>
         </config-file>
-        
-        <config-file target="res/values/strings.xml" parent="/resources">
-            <string name="fb_app_id">$APP_ID</string>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+	  <activity android:name="com.facebook.LoginActivity" />
         </config-file>
         
+        <config-file target="res/values/strings.xml" parent="/resources">
+            <string name="fb_app_id">$FB_APP_ID</string>
+        </config-file>
+        <config-file target="res/values/strings.xml" parent="/resources">
+            <string name="parse_app_id">$PARSE_APP_ID</string>
+        </config-file>
+        <config-file target="res/values/strings.xml" parent="/resources">
+            <string name="parse_key">$PARSE_KEY</string>
+        </config-file>
         
         <source-file src="src/android/FacebookConnect.java" target-dir="src/org/apache/cordova/plugins/FacebookConnect" />
-        <source-file src="src/android/facebook-android-sdk.jar" target-dir="libs/" />
+        <!-- <source-file src="src/android/facebook-android-sdk.jar" target-dir="libs/" /> -->
+        <source-file src="src/android/parse-1.4.1.jar" target-dir="libs/" />
     </platform>
     
     <!-- ios -->
@@ -48,14 +59,16 @@
             </feature>
         </config-file>
         
-        <preference name="APP_ID" />
+        <preference name="FB_APP_ID" />
+        <preference name="PARSE_APP_ID" />
+        <preference name="PARSE_KEY" />
         <preference name="APP_NAME" />
         
         <header-file src="src/ios/FacebookConnect.h" />
         <source-file src="src/ios/FacebookConnect.m" />
         
         <config-file target="*-Info.plist" parent="FacebookAppID">
-            <string>$APP_ID</string>
+            <string>$FB_APP_ID</string>
         </config-file>
         
         <config-file target="*-Info.plist" parent="FacebookDisplayName">
@@ -67,12 +80,25 @@
                 <dict>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>fb$APP_ID</string>
+                        <string>fb$FB_APP_ID</string>
                     </array>
                 </dict>
             </array>
         </config-file>
         
         <framework src="src/ios/FacebookSDK.framework" custom="true" />
+        <framework src="src/ios/Parse.framework" custom="true" />
+
+        <!-- Following are needed by Parse -->
+        <framework src="AudioToolbox.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreLocation.framework" />
+        <framework src="libz.dylib" />
+        <framework src="MobileCoreServices.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="Security.framework" />
+        <framework src="StoreKit.framework" />
+        <framework src="SystemConfiguration.framework" />
     </platform>
 </plugin>
