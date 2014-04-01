@@ -9,22 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <Parse/Parse.h>
 
 @interface FacebookConnect : CDVPlugin {
 }
-
-#pragma mark - Properties
-
-@property (nonatomic, retain) NSMutableDictionary *callbackIds;
-@property (nonatomic, retain) NSMutableDictionary *facebookRequests;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 #pragma mark - Instance methods
 
 - (void)init:(CDVInvokedUrlCommand*)command;
 - (void)login:(CDVInvokedUrlCommand*)command;
 - (void)logout:(CDVInvokedUrlCommand*)command;
-- (void)dialog:(CDVInvokedUrlCommand*)command;
 
 @end
 

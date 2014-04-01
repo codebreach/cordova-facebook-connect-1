@@ -75,6 +75,14 @@
             <string>$APP_NAME</string>
         </config-file>
         
+        <config-file target="*-Info.plist" parent="ParseAppId">
+            <string>$PARSE_APP_ID</string>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="ParseKey">
+            <string>$PARSE_KEY</string>
+        </config-file>
+        
         <config-file target="*-Info.plist" parent="CFBundleURLTypes">
             <array>
                 <dict>
